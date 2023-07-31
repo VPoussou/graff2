@@ -1,0 +1,34 @@
+{
+  "name": "graff_package",
+  "version": "1.0.0",
+  "description": "graffing on a train",
+  "main": "entry.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VPoussou/graff.git"
+  },
+  "keywords": [
+    "drawing",
+    "graffiti",
+    "webapp"
+  ],
+  "author": "Valentin Poussou",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/VPoussou/graff/issues"
+  },
+  "homepage": "https://github.com/VPoussou/graff#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "fabric": "^5.3.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.5.2",
+    "nginx": "^1.0.8",
+    "passport": "^0.6.0",
+    "sequelize": "^6.32.1"
+  }
+}

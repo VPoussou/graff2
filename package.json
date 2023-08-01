@@ -1,34 +1,31 @@
 {
-  "name": "graff_package",
-  "version": "1.0.0",
-  "description": "graffing on a train",
-  "main": "entry.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/VPoussou/graff.git"
-  },
-  "keywords": [
-    "drawing",
-    "graffiti",
-    "webapp"
-  ],
-  "author": "Valentin Poussou",
-  "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/VPoussou/graff/issues"
-  },
-  "homepage": "https://github.com/VPoussou/graff#readme",
   "dependencies": {
+    "babel": "^6.23.0",
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "fabric": "^5.3.0",
+    "html-webpack-plugin": "^5.5.3",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.5.2",
     "nginx": "^1.0.8",
     "passport": "^0.6.0",
-    "sequelize": "^6.32.1"
-  }
-}
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sequelize": "^6.32.1",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-react": "^7.22.5",
+    "babel-loader": "^9.1.3"
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "start": "webpack serve --mode development"
+},
+"babel": {
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ]
+}}

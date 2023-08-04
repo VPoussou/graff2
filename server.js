@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
-const {sequelize, test_db } = require('./models/index');
+const {sequelize, test_db, graff_users, graff_images } = require('./models/index');
 
 test_db().then(() => {
     console.log('Connection to the database has been established successfully');

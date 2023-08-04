@@ -1,12 +1,7 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize_config = require('../config/db_config').db_Config;
-const sequelize = new Sequelize(sequelize_config.database, sequelize_config.username, sequelize_config.password, {
-    host: sequelize_config.host,
-    port: sequelize_config.port,
-    dialect: sequelize_config.dialect
-});
+const { DataTypes } = require('sequelize')
+const sequelize = require('./users')
+const graff_users = sequelize.graff_users
 
-module.exports = (sequelize, DataTypes) => {
     const graff_images = sequelize.define('graff_images', {
         graff_images_id: {
             type: DataTypes.INTEGER,
@@ -37,5 +32,4 @@ module.exports = (sequelize, DataTypes) => {
     sequelize.sync().then(() => {
         console.log('Images table has been created')
     });
-    return graff_images;
-};
+module.exports = sequelize

@@ -1,8 +1,8 @@
-const { DataTypes } = require('sequelize')
-const sequelize = require('./users')
-const graff_users = sequelize.graff_users
 
-    const graff_images = sequelize.define('graff_images', {
+const { sequelize_instance } = require('./index');
+const { DataTypes } = require('sequelize');
+
+    const graff_images = sequelize_instance.define('graff_images', {
         graff_images_id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -13,7 +13,7 @@ const graff_users = sequelize.graff_users
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: graff_users,
+                model: 'graff_users',
                 key: 'graff_userid'
             }
         },
@@ -28,8 +28,5 @@ const graff_users = sequelize.graff_users
         freezeTableName: true
     }
     );
-
-    sequelize.sync().then(() => {
-        console.log('Images table has been created')
-    });
-module.exports = sequelize
+    
+module.exports = graff_images

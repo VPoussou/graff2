@@ -1,10 +1,14 @@
 module.exports = {
     db_Config: {
       database: 'graff',
-      username: 'main1',
+      username: 'main2',
       password: 'F8tifdixfn',
-      host: 'localhost',
-      port: 3306,
-      dialect: 'mysql', // Specify the dialect here
-    },
+      options: {
+        host: 'localhost',
+        port: 3306,
+        dialect: 'mysql',
+        charset: 'utf8mb4',
+        collate: 'utf8_general_ci',
+      }
+    }
   };

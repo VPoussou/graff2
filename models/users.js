@@ -1,8 +1,8 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize_config = require('../config/db_config').db_Config;
-const { sequelize } = require('./index')
 
-const graff_users = sequelize.define('graff_users', {
+const { sequelize_instance } = require('./index')
+const { DataTypes } = require('sequelize')
+
+const graff_users = sequelize_instance.define('graff_users', {
     graff_userid: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -28,5 +28,6 @@ const graff_users = sequelize.define('graff_users', {
     }
 );
 
-module.exports = sequelize;
+module.exports = graff_users;
+
 

@@ -3,23 +3,25 @@ const bcrypt = require('bcrypt');
 
 exports.register = async (req, res) => {
     try {
-        const { username, password, email } = req.body;
-        if (!username || !password || !email) {
+        const { graff_username, graff_firstname, graff_lastname, graff_password, graff_email } = req.body;
+        if (!graff_username || !graff_password || !graff_email) {
             return res.status(400).json({error: 'Tous les champs sont obligatoires'});
         }
 
-    const existingUser = await graff_users.findOne({ where: { email }});
+    const existingUser = await graff_users.findOne({ where: { graff_email }});
     if (existingUser) {
         return res.status(400).json({ error: 'Email already in use' });
     }
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt)
+    const hashedPassword = await bcrypt.hash(graff_password, salt)
 
     const newUser = await graff_users.create({
-        username,
-        email,
-        password: hashedPassword
+        graff_username,
+        graff_firstname,
+        graff_lastname,
+        graff_email,
+        graff_password: hashedPassword
     });
 
     res.status(201).json({ message: 'Utilisateur enregistré'});

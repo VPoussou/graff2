@@ -4,8 +4,7 @@ const sequelize_instance = new Sequelize(sequelize_config.database, sequelize_co
     host: sequelize_config.options.host,
     dialect: sequelize_config.options.dialect,
     dialectOptions: {
-        charset: sequelize_config.options.charset,
-        collate: sequelize_config.options.collate
+        charset: sequelize_config.options.charset
     },
     logging: console.log,
     port: sequelize_config.options.port
@@ -46,7 +45,7 @@ test_db()
     } catch (error) {
         console.error('An error occurred while synchronizing the database')
     }
-    sequelize_instance .query(`DESCRIBE graff_users;`).then(([results, metadata]) => {
+    sequelize_instance .query(`DESCRIBE users;`).then(([results, metadata]) => {
         console.log('Table structure:', results);
         }).catch(error => {
         console.error('Error describing table:', error);

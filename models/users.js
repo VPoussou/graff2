@@ -2,7 +2,7 @@
 const { sequelize_instance } = require('./index')
 const { DataTypes } = require('sequelize')
 
-const graff_users = sequelize_instance.define('graff_users', {
+const users = sequelize_instance.define('users', {
     graff_userid: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -13,12 +13,20 @@ const graff_users = sequelize_instance.define('graff_users', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    email: {
+    graff_firstname: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    graff_lastname: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    graff_email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },
-    password: {
+    graff_password: {
         type: DataTypes.STRING,
         allowNull: false
     }}, 
@@ -28,6 +36,6 @@ const graff_users = sequelize_instance.define('graff_users', {
     }
 );
 
-module.exports = graff_users;
+module.exports = users;
 
 

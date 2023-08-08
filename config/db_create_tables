@@ -1,0 +1,19 @@
+CREATE TABLE users (
+    graff_userid INT AUTO_INCREMENT PRIMARY KEY,
+    graff_username VARCHAR(255) NOT NULL,
+    graff_firstname VARCHAR(255) NOT NULL,
+    graff_lastname VARCHAR(255) NOT NULL,
+    graff_email VARCHAR(255) NOT NULL,
+    graff_password VARCHAR(255) NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE images (
+    graff_imagesid INT AUTO_INCREMENT PRIMARY KEY,
+    graff_images_userid INT NOT NULL,
+    graff_images_filename VARCHAR(255) NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (graff_images_userid) REFERENCES users(graff_userid)
+);

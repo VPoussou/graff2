@@ -1,8 +1,9 @@
 import os
 import io
 import warnings
-
-from PIL import Image
+import cv2
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 from stability_sdk import client
 import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
 from torchvision.transforms import GaussianBlur
@@ -28,20 +29,54 @@ stability_api = client.StabilityInference(
     # Check out the following link for a list of available engines: https://platform.stability.ai/docs/features/api-parameters#engine
 )
 
-img = Image.open('./ai-source/image2.png')
+img = Image.open('./ai-source/image3.png')
 
-mask = Image.open('./ai-source/mask1.png')
+# Duckin fonts and stuff
+
+img_mask_width, img_mask_height = 1024, 1024
+mask = Image.new('L', (img_mask_width, img_mask_height), 'white')
+d = ImageDraw.Draw(mask)
+m = ImageDraw.Draw(img)
+throwupz_path = "./fonts/throwupz.ttf"
+font1 = ImageFont.truetype(throwupz_path, size=200)
+
+text = "SNAKE"
+x, y = 100, 100
+
+outline_width = 5
+for i in range(-outline_width, outline_width + 1):
+    for j in range(-outline_width, outline_width + 1):
+        d.text((x + i, y + j), text, fill='black', font=font1)
+
+m.text((x, y), text, fill='black', font=font1)
+
+mask.save('./ai-source/maskfont3.png')
+
+mask_filling = Image.open('./ai-source/maskfont3.png')
+np_mask = np.array(mask_filling)
+contours, hierarchy = cv2.findContours(np_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+contours = [c for c in contours if cv2.contourArea(c) > 50]
+contour_centers = []
+for contour in contours:
+    M = cv2.moments(contour)
+    if M["m00"] != 0:
+        cX = int(M["m10"] / M["m00"])
+        cY = int(M["m01"] / M["m00"])
+        contour_centers.append([cX, cY])
+
+for contour_center in contour_centers:
+    ImageDraw.floodfill(mask_filling, (contour_center[0], contour_center[1]), value=0, thresh=50)
 
 # Feathering the edges of our mask generally helps provide a better result. Alternately, you can feather the mask in a suite like Photoshop or GIMP.
 
-# blur = GaussianBlur(7,5)
-# mask = blur(mask_i)
-
+blur = GaussianBlur(7,5)
+mask_blurred = blur(mask_filling)
+mask_filling.save('./ai-source/masktest.png')
 
 answers = stability_api.generate(
-    prompt=("letters, graffiti"),
+    prompt=("street art, SNAKE written on the wall, letters, graffiti"),
     init_image=img,
-    mask_image=mask,
+    mask_image=mask_blurred,
     start_schedule=1,
                    # If attempting to transform an image that was previously generated with our API,
                    # initial images benefit from having their own distinct seed rather than using the seed of the original image generation.

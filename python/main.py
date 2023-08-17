@@ -65,6 +65,9 @@ for contour in contours:
         contour_centers.append([cX, cY])
 
 for contour_center in contour_centers:
+    cv2.circle(np_mask, (contour_center[0], contour_center[1]), radius=5, color=(255,255,0), thickness=-1)
+
+for contour_center in contour_centers:
     ImageDraw.floodfill(mask_filling, (contour_center[0], contour_center[1]), value=0, thresh=50)
 
 # Feathering the edges of our mask generally helps provide a better result. Alternately, you can feather the mask in a suite like Photoshop or GIMP.

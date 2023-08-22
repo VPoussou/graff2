@@ -38,24 +38,28 @@ mask = Image.new('L', (img_mask_width, img_mask_height), 'white')
 d = ImageDraw.Draw(mask)
 m = ImageDraw.Draw(img)
 throwupz_path = "./fonts/throwupz.ttf"
-font1 = ImageFont.truetype(throwupz_path, size=200)
+urban_blocker_path = "./fonts/urban_blocker_solid.ttf"
+font1 = ImageFont.truetype(throwupz_path, size=300)
+font2 = ImageFont.truetype(urban_blocker_path, size=300)
 
-text = "SNAKE"
+text = "PERDU !"
 x, y = 100, 100
 
 outline_width = 5
 for i in range(-outline_width, outline_width + 1):
     for j in range(-outline_width, outline_width + 1):
-        d.text((x + i, y + j), text, fill='black', font=font1)
+        d.text((x + i, y + j), text, fill='black', font=font2)
 
-m.text((x, y), text, fill='black', font=font1)
+# m.text((x, y), text, fill='black', font=font1)
 
 mask.save('./ai-source/maskfont3.png')
 
 mask_filling = Image.open('./ai-source/maskfont3.png')
 np_mask = np.array(mask_filling)
-contours, hierarchy = cv2.findContours(np_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-contours = [c for c in contours if cv2.contourArea(c) > 50]
+np_mask_inverted = cv2.bitwise_not(np_mask)
+contours, hierarchy = cv2.findContours(np_mask_inverted, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+contours = [c for c in contours if cv2.contourArea(c) > 20]
+
 contour_centers = []
 for contour in contours:
     M = cv2.moments(contour)
@@ -65,11 +69,13 @@ for contour in contours:
         contour_centers.append([cX, cY])
 
 for contour_center in contour_centers:
-    cv2.circle(np_mask, (contour_center[0], contour_center[1]), radius=5, color=(255,255,0), thickness=-1)
+    ImageDraw.floodfill(mask_filling, (contour_center[0], contour_center[1]), value=0, thresh=100)
 
 for contour_center in contour_centers:
-    ImageDraw.floodfill(mask_filling, (contour_center[0], contour_center[1]), value=0, thresh=50)
+    cv2.circle(np_mask, (contour_center[0], contour_center[1]), radius=20, color=(0,255,255), thickness=-1)
 
+mask_circles = Image.fromarray(np_mask)
+mask_circles.save('./ai-source/maskcircles.png')
 # Feathering the edges of our mask generally helps provide a better result. Alternately, you can feather the mask in a suite like Photoshop or GIMP.
 
 blur = GaussianBlur(7,5)
@@ -77,7 +83,7 @@ mask_blurred = blur(mask_filling)
 mask_filling.save('./ai-source/masktest.png')
 
 answers = stability_api.generate(
-    prompt=("street art, SNAKE written on the wall, letters, graffiti"),
+    prompt=("letters, 'P E R D U !', graffiti font"),
     init_image=img,
     mask_image=mask_blurred,
     start_schedule=1,

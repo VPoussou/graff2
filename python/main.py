@@ -39,8 +39,10 @@ d = ImageDraw.Draw(mask)
 m = ImageDraw.Draw(img)
 throwupz_path = "./fonts/throwupz.ttf"
 urban_blocker_path = "./fonts/urban_blocker_solid.ttf"
+another_tag_path = "./fonts/another_tag.ttf"
 font1 = ImageFont.truetype(throwupz_path, size=300)
 font2 = ImageFont.truetype(urban_blocker_path, size=300)
+font3 = ImageFont.truetype(another_tag_path, size=300)
 
 text = "PERDU !"
 x, y = 100, 100

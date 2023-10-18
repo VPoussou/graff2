@@ -3,3 +3,5 @@ bin
 lib
 *.png
 share
+ai-source
+ai-end
